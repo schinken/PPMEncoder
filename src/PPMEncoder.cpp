@@ -33,12 +33,12 @@ void PPMEncoder::begin(uint8_t outputPin, uint8_t numChannels) {
 }
 
 void PPMEncoder::setChannel(uint8_t channel, uint16_t value) {
-  channels[channel] = constrain(value, PPM_MIN_VALUE, PPM_MAX_VALUE);
+  channels[channel] = constrain(value, PPMEncoder::MIN, PPMEncoder::MAX);
 }
 
 void PPMEncoder::setChannelPercent(uint8_t channel, uint8_t percent) {
   percent = constrain(percent, 0, 100);
-  setChannel(channel, map(percent, 0, 100, PPM_MIN_VALUE, PPM_MAX_VALUE));
+  setChannel(channel, map(percent, 0, 100, PPMEncoder::MIN, PPMEncoder::MAX));
 }
 
 void PPMEncoder::interrupt() {

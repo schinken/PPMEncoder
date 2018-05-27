@@ -12,9 +12,6 @@
 #define PPM_PULSE_LENGTH_uS 500
 #define PPM_FRAME_LENGTH_uS 22500
 
-#define PPM_MIN_VALUE 500
-#define PPM_MAX_VALUE 2500
-
 class PPMEncoder {
 
   private:
@@ -27,6 +24,9 @@ class PPMEncoder {
     boolean state;
 
   public:
+    static const uint16_t MIN = 500;
+    static const uint16_t MAX = 2500;
+
     void setChannel(uint8_t channel, uint16_t value);
     void setChannelPercent(uint8_t channel, uint8_t percent);
 
