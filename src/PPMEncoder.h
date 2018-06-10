@@ -31,7 +31,7 @@ class PPMEncoder {
     void setChannelPercent(uint8_t channel, uint8_t percent);
 
     void begin(uint8_t pin);
-    void begin(uint8_t pin, uint8_t numChannels);
+    void begin(uint8_t pin, uint8_t ch);
 
     void interrupt();
 };

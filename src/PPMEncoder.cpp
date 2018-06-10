@@ -6,7 +6,7 @@ void PPMEncoder::begin(uint8_t pin) {
   begin(pin, PPM_DEFAULT_CHANNELS);
 }
 
-void PPMEncoder::begin(uint8_t pin, uint8_t numChannels) {
+void PPMEncoder::begin(uint8_t pin, uint8_t ch) {
   cli();
 
   pinMode(pin, OUTPUT);
@@ -16,7 +16,7 @@ void PPMEncoder::begin(uint8_t pin, uint8_t numChannels) {
   elapsedUs = 0;
   currentChannel = 0;
 
-  numChannels = numChannels;
+  numChannels = ch;
   outputPin = pin;
 
   for (uint8_t ch = 0; ch < numChannels; ch++) {
