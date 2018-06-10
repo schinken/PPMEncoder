@@ -3,7 +3,7 @@
 PPMEncoder ppmEncoder;
 
 void PPMEncoder::begin(uint8_t pin) {
-  begin(outputPin, PPM_DEFAULT_CHANNELS);
+  begin(pin, PPM_DEFAULT_CHANNELS);
 }
 
 void PPMEncoder::begin(uint8_t pin, uint8_t numChannels) {
