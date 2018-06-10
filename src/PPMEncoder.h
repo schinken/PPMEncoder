@@ -24,8 +24,8 @@ class PPMEncoder {
     boolean state;
 
   public:
-    static const uint16_t MIN = 500;
-    static const uint16_t MAX = 2500;
+    static const uint16_t MIN = 1000;
+    static const uint16_t MAX = 3000;
 
     void setChannel(uint8_t channel, uint16_t value);
     void setChannelPercent(uint8_t channel, uint8_t percent);
