@@ -2,22 +2,22 @@
 
 PPMEncoder ppmEncoder;
 
-void PPMEncoder::begin(uint8_t outputPin) {
+void PPMEncoder::begin(uint8_t pin) {
   begin(outputPin, PPM_DEFAULT_CHANNELS);
 }
 
-void PPMEncoder::begin(uint8_t outputPin, uint8_t numChannels) {
+void PPMEncoder::begin(uint8_t pin, uint8_t numChannels) {
   cli();
 
-  pinMode(outputPin, OUTPUT);
-  digitalWrite(outputPin, LOW);
+  pinMode(pin, OUTPUT);
+  digitalWrite(pin, LOW);
 
   state = true;
   elapsedUs = 0;
   currentChannel = 0;
 
   numChannels = numChannels;
-  outputPin = outputPin;
+  outputPin = pin;
 
   for (uint8_t ch = 0; ch < numChannels; ch++) {
     setChannelPercent(ch, 0);
