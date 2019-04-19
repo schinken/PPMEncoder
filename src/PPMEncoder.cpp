@@ -19,9 +19,6 @@ void PPMEncoder::begin(uint8_t pin, uint8_t ch) {
   numChannels = ch;
   outputPin = pin;
 
-  for (uint8_t ch = 0; ch < numChannels; ch++) {
-    setChannelPercent(ch, 0);
-  }
 
   TCCR1A = 0;
 
