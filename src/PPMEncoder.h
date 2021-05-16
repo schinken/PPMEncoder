@@ -22,6 +22,10 @@ class PPMEncoder {
     uint8_t currentChannel;
     byte outputPin;
     boolean state;
+	
+    uint8_t onState;
+    uint8_t offState;
+
 
   public:
     static const uint16_t MIN = 1000;
@@ -32,6 +36,7 @@ class PPMEncoder {
 
     void begin(uint8_t pin);
     void begin(uint8_t pin, uint8_t ch);
+    void begin(uint8_t pin, uint8_t ch, boolean inverted);
 
     void interrupt();
 };

@@ -3,14 +3,22 @@
 PPMEncoder ppmEncoder;
 
 void PPMEncoder::begin(uint8_t pin) {
-  begin(pin, PPM_DEFAULT_CHANNELS);
+  begin(pin, PPM_DEFAULT_CHANNELS, false);
 }
 
 void PPMEncoder::begin(uint8_t pin, uint8_t ch) {
+  begin(pin, ch, false);
+}
+
+void PPMEncoder::begin(uint8_t pin, uint8_t ch, boolean inverted) {
   cli();
 
+  // Store on/off-State in variable to avoid another if in timing-critical interrupt
+  onState = (inverted) ? HIGH : LOW;
+  offState = (inverted) ? LOW : HIGH;
+  
   pinMode(pin, OUTPUT);
-  digitalWrite(pin, LOW);
+  digitalWrite(pin, offState);
 
   state = true;
   elapsedUs = 0;
@@ -45,11 +53,11 @@ void PPMEncoder::interrupt() {
   TCNT1 = 0;
 
   if (state) {
-    digitalWrite(outputPin, HIGH);
+    digitalWrite(outputPin, onState);
     OCR1A = PPM_PULSE_LENGTH_uS * 2;
 
   } else {
-    digitalWrite(outputPin, LOW);
+    digitalWrite(outputPin, offState);
 
     if (currentChannel >= numChannels) {
       currentChannel = 0;
