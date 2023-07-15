@@ -20,6 +20,7 @@ void PPMEncoder::begin(uint8_t pin, uint8_t ch, boolean inverted) {
   pinMode(pin, OUTPUT);
   digitalWrite(pin, offState);
 
+  enabled = true;
   state = true;
   elapsedUs = 0;
   currentChannel = 0;
@@ -49,7 +50,24 @@ void PPMEncoder::setChannelPercent(uint8_t channel, uint8_t percent) {
   setChannel(channel, map(percent, 0, 100, PPMEncoder::MIN, PPMEncoder::MAX));
 }
 
+void PPMEncoder::enable() {
+ enabled = true;
+}
+
+void PPMEncoder::disable() {
+ enabled = false;
+ state = false;
+ elapsedUs = 0;
+ currentChannel = 0;
+ 
+ digitalWrite(outputPin, offState);
+}
+
 void PPMEncoder::interrupt() {
+  if (!enabled) {
+    return;
+  }
+
   TCNT1 = 0;
 
   if (state) {
