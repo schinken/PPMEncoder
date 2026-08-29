@@ -23,6 +23,7 @@ class PPMEncoder {
     byte outputPin;
     boolean state;
     boolean enabled;
+    uint8_t clockMultiplier;
 	
     uint8_t onState;
     uint8_t offState;
@@ -38,6 +39,7 @@ class PPMEncoder {
     void begin(uint8_t pin);
     void begin(uint8_t pin, uint8_t ch);
     void begin(uint8_t pin, uint8_t ch, boolean inverted);
+    void begin(uint8_t pin, uint8_t ch, boolean inverted, boolean is16MHz);
 
     void disable();
     void enable();

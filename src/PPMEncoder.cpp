@@ -3,14 +3,18 @@
 PPMEncoder ppmEncoder;
 
 void PPMEncoder::begin(uint8_t pin) {
-  begin(pin, PPM_DEFAULT_CHANNELS, false);
+  begin(pin, PPM_DEFAULT_CHANNELS, false, true);
 }
 
 void PPMEncoder::begin(uint8_t pin, uint8_t ch) {
-  begin(pin, ch, false);
+  begin(pin, ch, false, true);
 }
 
 void PPMEncoder::begin(uint8_t pin, uint8_t ch, boolean inverted) {
+  begin(pin, ch, inverted, true);
+}
+
+void PPMEncoder::begin(uint8_t pin, uint8_t ch, boolean inverted, boolean is16MHz) {
   cli();
 
   // Store on/off-State in variable to avoid another if in timing-critical interrupt
@@ -27,6 +31,7 @@ void PPMEncoder::begin(uint8_t pin, uint8_t ch, boolean inverted) {
 
   numChannels = ch;
   outputPin = pin;
+  clockMultiplier = is16MHz ? 2 : 1;
 
   for (uint8_t ch = 0; ch < numChannels; ch++) {
     setChannelPercent(ch, 0);
@@ -72,7 +77,7 @@ void PPMEncoder::interrupt() {
 
   if (state) {
     digitalWrite(outputPin, onState);
-    OCR1A = PPM_PULSE_LENGTH_uS * 2;
+    OCR1A = PPM_PULSE_LENGTH_uS * clockMultiplier;
 
   } else {
     digitalWrite(outputPin, offState);
@@ -80,10 +85,10 @@ void PPMEncoder::interrupt() {
     if (currentChannel >= numChannels) {
       currentChannel = 0;
       elapsedUs = elapsedUs + PPM_PULSE_LENGTH_uS;
-      OCR1A = (PPM_FRAME_LENGTH_uS - elapsedUs) * 2;
+      OCR1A = (PPM_FRAME_LENGTH_uS - elapsedUs) * clockMultiplier;
       elapsedUs = 0;
     } else {
-      OCR1A = (channels[currentChannel] - PPM_PULSE_LENGTH_uS) * 2;
+      OCR1A = (channels[currentChannel] - PPM_PULSE_LENGTH_uS) * clockMultiplier;
       elapsedUs = elapsedUs + channels[currentChannel];
 
       currentChannel++;
